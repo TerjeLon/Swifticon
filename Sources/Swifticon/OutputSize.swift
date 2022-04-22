@@ -16,6 +16,7 @@ struct OutputSize {
     }
     
     var name: String {
-        return "\(originalSize)@\(scale.multiplier)"
+        let suffix = scale == .x1 ? "" : "@\(scale.multiplier)"
+        return "\(originalSize)@\(suffix)"
     }
 }

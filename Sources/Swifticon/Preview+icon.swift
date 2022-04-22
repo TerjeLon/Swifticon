@@ -10,7 +10,7 @@ import SwiftUI
 extension View {
     public func swifticon() -> some View {
         return self
-            .frame(width: 1024, height: 1024)
+            .frame(width: 512, height: 512)
             .previewLayout(.sizeThatFits)
     }
 }

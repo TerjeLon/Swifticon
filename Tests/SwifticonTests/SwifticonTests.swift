@@ -4,6 +4,6 @@ import SwiftUI
 
 final class SwifticonTests: XCTestCase {
     func testIt() {
-        try! Swifticon.grabIcons(fromPreviews: IconGenerator._allPreviews)
+        try! Swifticon.generateIconAssets(fromPreviews: IconGenerator._allPreviews)
     }
 }

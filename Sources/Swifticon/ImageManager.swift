@@ -1,5 +1,5 @@
 //
-//  ImageGrabber.swift
+//  ImageManager.swift
 //  
 //
 //  Created by Terje Lønøy on 16/04/2022.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-class ImageGrabber {
+class ImageManager {
     func getPreviewAsUIImage(_ preview: _Preview, size: CGSize) -> UIImage {
         let view = preview.content
         let window = UIWindow(frame: CGRect(origin: .zero, size: size))

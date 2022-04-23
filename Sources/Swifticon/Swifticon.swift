@@ -17,37 +17,55 @@ public class Swifticon {
      - Parameter platforms: Platforms to generate the icons for see `SupportedPlatform`. Defaults to all platforms.
      
      - Parameter assetsDirectoryName: Name of the .xcassets folder the .appiconset folder should be created.
-     Exclude suffix in the name.
+     Exclude suffix in the name. Defaults to Assets
+     
+     - Parameter iconDirectoryName: Name of the .appiconset folder, without suffix. Defaults to AppIcon
      
      - Parameter path: Needed for getting path to project folder, no value should be set!
      */
     public static func generateIconAssets(
         fromPreviews previews: [_Preview],
         forPlatforms platforms: [SupportedPlatform] = SupportedPlatform.allCases,
-        assetsDirectoryName: String,
-        storeAtPath path: String = #file) throws {
+        assetsDirectoryName: String = "Assets",
+        iconDirectoryName: String = "AppIcon",
+        storeAtPath path: String = #file
+    ) throws {
         guard !previews.isEmpty else { throw SwifticonError.noPreviewsProvided }
+        guard let assetsDirectoryPath = FileStorageManager.getAssetsDirectory(named: assetsDirectoryName, atPath: path) else {
+            throw SwifticonError.noAssetsDirectoryFound
+        }
+        
+        let iconDirectoryPath = try FileStorageManager.createIconSetDirectoryIfNonexistent(
+            atPath: assetsDirectoryPath,
+            named: iconDirectoryName
+        )
+        
         let imageManager = ImageManager()
-
+        let image = imageManager.getPreviewAsUIImage(
+            previews.first!,
+            size: .init(
+                width: 1024,
+                height: 1024
+            )
+        )
+        
         try platforms.forEach { platform in
             try platform.targets.forEach { target in
                 try target.outputSizes.forEach { outputTarget in
-                    let image = imageManager.getPreviewAsUIImage(
-                        previews.first!,
-                        size: .init(
+                    try FileStorageManager.saveImage(
+                        image.resized(to: .init(
                             width: outputTarget.actualSize,
                             height: outputTarget.actualSize
-                        )
+                        )),
+                        atPath: iconDirectoryPath,
+                        filename: outputTarget.name
                     )
-                    
-                    if let assetsDirectoryPath = FileStorageManager.getAssetsDirectory(named: assetsDirectoryName, atPath: path) {
-                        try FileStorageManager.saveImage(image, atPath: assetsDirectoryPath, filename: "test")
-                    } else {
-                        throw SwifticonError.noAssetsDirectoryFound
-                    }
                 }
             }
         }
+        
+        let contentData = try ContentFactory.generateContentJson(fromPlatforms: platforms)
+        try FileStorageManager.saveContentFile(content: contentData, atPath: iconDirectoryPath)
     }
 }
 

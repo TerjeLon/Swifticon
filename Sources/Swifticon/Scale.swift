@@ -22,4 +22,15 @@ enum Scale {
             return 3
         }
     }
+    
+    var name: String {
+        switch self {
+        case .x1:
+            return "1x"
+        case .x2:
+            return "2x"
+        case .x3:
+            return "3x"
+        }
+    }
 }

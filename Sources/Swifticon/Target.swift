@@ -16,11 +16,11 @@ struct Target {
     var folder: String?
     
     var sizeString: String {
-        return "\(size)x\(size)"
+        let s = size.toString()
+        return "\(s)x\(s)"
     }
     
     var outputSizes: [OutputSize] {
         return scales.map { OutputSize(originalSize: size, scale: $0) }
     }
-
 }

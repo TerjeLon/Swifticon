@@ -24,6 +24,17 @@ class FileStorageManager {
         try data?.write(to: fileUrl)
     }
     
+    static func createIconSetDirectoryIfNonexistent(atPath path: URL, named: String) throws -> URL {
+        var path = path.appendingPathComponent(named)
+        path.appendPathExtension("appiconset")
+        
+        if !FileManager.default.fileExists(atPath: path.path) {
+            try FileManager.default.createDirectory(atPath: path.path, withIntermediateDirectories: true, attributes: nil)
+        }
+        
+        return path
+    }
+    
     static func getAssetsDirectory(named assetsDirectoryName: String, atPath path: String) -> URL? {
         let assetsDirectoryWithSuffix = "\(assetsDirectoryName).xcassets"
         var url = URL(string: path)!
@@ -61,5 +72,12 @@ class FileStorageManager {
         }
         
         return assetsDirectoryPath
+    }
+    
+    static func saveContentFile(content: Data, atPath path: URL) throws {
+        let contentJson = String(data: content, encoding: .utf8)
+        let path = path.appendingPathComponent("Contents.json")
+        
+        try contentJson!.write(to: path, atomically: true, encoding: .utf8)
     }
 }

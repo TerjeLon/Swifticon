@@ -18,20 +18,15 @@ class ImageManager {
         window.addSubview(hosting.view)
         window.makeKeyAndVisible()
         
-        hosting.view.setNeedsDisplay()
-        hosting.view.setNeedsLayout()
-        hosting.view.layoutIfNeeded()
-        
         let imageView = hosting.view!
-        imageView.bounds.size = size
-        
         let renderer = UIGraphicsImageRenderer(bounds: imageView.bounds)
         
-        imageView.frame.origin = .init(x: 0, y: imageView.safeAreaInsets.top)
         imageView.backgroundColor = .clear
             
-        return renderer.image { ctx in
+        let image = renderer.image { ctx in
             imageView.layer.render(in: ctx.cgContext)
         }
+        
+        return image
     }
 }

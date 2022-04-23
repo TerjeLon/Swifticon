@@ -11,6 +11,7 @@ public enum SupportedPlatform: CaseIterable {
     case iPhone
     case iPad
     case iOSMarketing
+    case macOS
     
     var targets: [Target] {
         switch self {
@@ -36,6 +37,14 @@ public enum SupportedPlatform: CaseIterable {
             return [
                 Target(size: 1024, idiom: self.idiom, scales: [.x1])
             ]
+        case .macOS:
+            return [
+                Target(size: 16, idiom: self.idiom, scales: [.x1, .x2]),
+                Target(size: 32, idiom: self.idiom, scales: [.x1, .x2]),
+                Target(size: 128, idiom: self.idiom, scales: [.x1, .x2]),
+                Target(size: 256, idiom: self.idiom, scales: [.x1, .x2]),
+                Target(size: 512, idiom: self.idiom, scales: [.x1, .x2]),
+            ]
         }
     }
     
@@ -47,6 +56,8 @@ public enum SupportedPlatform: CaseIterable {
             return "ipad"
         case .iOSMarketing:
             return "ios-marketing"
+        case .macOS:
+            return "mac"
         }
     }
 }

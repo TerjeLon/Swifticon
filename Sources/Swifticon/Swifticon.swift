@@ -21,6 +21,11 @@ public class Swifticon {
      
      - Parameter iconDirectoryName: Name of the .appiconset folder, without suffix. Defaults to AppIcon
      
+     - Parameter drawInHierarchy: Renders complete view hierarchy if true.
+     Only set to false if tests is not run towards a simulator or device.
+     Might cause unexpected results when false.
+     Defaults to true
+     
      - Parameter path: Needed for getting path to project folder, no value should be set!
      */
     public static func generateIconAssets(
@@ -28,6 +33,7 @@ public class Swifticon {
         forPlatforms platforms: [SupportedPlatform] = SupportedPlatform.allCases,
         assetsDirectoryName: String = "Assets",
         iconDirectoryName: String = "AppIcon",
+        drawInHierarchy: Bool = true,
         storeAtPath path: String = #file
     ) throws {
         guard !previews.isEmpty else { throw SwifticonError.noPreviewsProvided }
@@ -46,7 +52,8 @@ public class Swifticon {
             size: .init(
                 width: 1024,
                 height: 1024
-            )
+            ),
+            drawInHierarchy: drawInHierarchy
         )
         
         try platforms.forEach { platform in
@@ -66,12 +73,5 @@ public class Swifticon {
         
         let contentData = try ContentFactory.generateContentJson(fromPlatforms: platforms)
         try FileStorageManager.saveContentFile(content: contentData, atPath: iconDirectoryPath)
-    }
-}
-
-struct IconGenerator: PreviewProvider {
-    static var previews: some View {
-        Text("Hey")
-            .swifticon()
     }
 }

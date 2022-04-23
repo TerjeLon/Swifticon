@@ -8,7 +8,7 @@
 import SwiftUI
 
 class ImageManager {
-    func getPreviewAsUIImage(_ preview: _Preview, size: CGSize) -> UIImage {
+    func getPreviewAsUIImage(_ preview: _Preview, size: CGSize, drawInHierarchy: Bool) -> UIImage {
         let view = preview.content
         let window = UIWindow(frame: CGRect(origin: .zero, size: size))
         
@@ -24,7 +24,11 @@ class ImageManager {
         imageView.backgroundColor = .clear
             
         let image = renderer.image { ctx in
-            imageView.layer.render(in: ctx.cgContext)
+            if drawInHierarchy {
+                imageView.drawHierarchy(in: imageView.bounds, afterScreenUpdates: true)
+            } else {
+                imageView.layer.render(in: ctx.cgContext)
+            }
         }
         
         return image

@@ -80,7 +80,7 @@ class FileStorageManager {
         let contentJson = String(data: content, encoding: .utf8)
         let path = path.appendingPathComponent("Contents.json")
         
-        if !FileManager.default.fileExists(atPath: path.path) {
+        if FileManager.default.fileExists(atPath: path.path) {
             try FileManager.default.removeItem(atPath: path.path)
         }
         

@@ -104,7 +104,7 @@ Supported platforms are:
 * MacOS
 * WatchOS
 
-Each platform needs their relative path included. Example: `myProject/iOSProjectFolder/Assets`.
+Each platform needs their relative path from your projects root folder included. Example: `iOSProjectFolder/Assets`. Where full path would be `~/Documents/myProject/iOSProjectFolder/Assets`
 
 **iconDirectoryName:**  
 Name of the .appiconset folder, without suffix. Defaults to AppIcon.  

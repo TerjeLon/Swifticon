@@ -66,7 +66,7 @@ class FileStorageManager {
         // assetsDirectoryPath is yielded with full path to files inside it, so strip
         // path components until we are at the actual directory
         if assetsDirectoryPath != nil {
-            while !assetsDirectoryPath!.lastPathComponent.starts(with: assetsDirectoryWithSuffix) {
+            while !assetsDirectoryPath!.lastPathComponent.contains(".xcassets") {
                 assetsDirectoryPath = assetsDirectoryPath?.deletingLastPathComponent()
             }
         }

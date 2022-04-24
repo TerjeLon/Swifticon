@@ -30,21 +30,12 @@ public class Swifticon {
      */
     public static func generateIconAssets(
         fromPreviews previews: [_Preview],
-        forPlatforms platforms: [SupportedPlatform] = SupportedPlatform.allCases,
-        assetsDirectoryName: String = "Assets",
+        forPlatforms platforms: [SupportedPlatform],
         iconDirectoryName: String = "AppIcon",
         drawInHierarchy: Bool = true,
         storeAtPath path: String = #file
     ) throws {
         guard !previews.isEmpty else { throw SwifticonError.noPreviewsProvided }
-        guard let assetsDirectoryPath = FileStorageManager.getAssetsDirectory(named: assetsDirectoryName, atPath: path) else {
-            throw SwifticonError.noAssetsDirectoryFound
-        }
-        
-        let iconDirectoryPath = try FileStorageManager.createIconSetDirectoryIfNonexistent(
-            atPath: assetsDirectoryPath,
-            named: iconDirectoryName
-        )
         
         let imageManager = ImageManager()
         let image = imageManager.getPreviewAsUIImage(
@@ -57,6 +48,15 @@ public class Swifticon {
         )
         
         try platforms.forEach { platform in
+            guard let assetsDirectoryPath = FileStorageManager.getAssetsDirectory(named: platform.assetsFolderRelativePath, atPath: path) else {
+                throw SwifticonError.noAssetsDirectoryFound
+            }
+            
+            let iconDirectoryPath = try FileStorageManager.createIconSetDirectoryIfNonexistent(
+                atPath: assetsDirectoryPath,
+                named: iconDirectoryName
+            )
+            
             try platform.targets.forEach { target in
                 try target.outputSizes.forEach { outputTarget in
                     try FileStorageManager.saveImage(
@@ -69,9 +69,9 @@ public class Swifticon {
                     )
                 }
             }
+            
+            let contentData = try ContentFactory.generateContentJson(fromPlatforms: platforms)
+            try FileStorageManager.saveContentFile(content: contentData, atPath: iconDirectoryPath)
         }
-        
-        let contentData = try ContentFactory.generateContentJson(fromPlatforms: platforms)
-        try FileStorageManager.saveContentFile(content: contentData, atPath: iconDirectoryPath)
     }
 }

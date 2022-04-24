@@ -34,7 +34,7 @@ class ContentFactory {
                 target.outputSizes.forEach { outputTarget in
                     let o = IconInfo(
                         filename: "\(outputTarget.name).png",
-                        idiom: platform.idiom,
+                        idiom: target.idiom,
                         scale: outputTarget.scale.name,
                         size: target.sizeString
                     )

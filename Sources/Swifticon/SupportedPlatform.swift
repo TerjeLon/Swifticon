@@ -7,57 +7,53 @@
 
 import UIKit
 
-public enum SupportedPlatform: CaseIterable {
-    case iPhone
-    case iPad
-    case iOSMarketing
-    case macOS
+public enum SupportedPlatform {
+    case iPhoneAndiPad(assetsFolderRelativePath: String)
+    case iPhone(assetsFolderRelativePath: String)
+    case iPad(assetsFolderRelativePath: String)
+    case macOS(assetsFolderRelativePath: String)
     
     var targets: [Target] {
         switch self {
         case .iPhone:
             return [
-                Target(size: 20, idiom: self.idiom, scales: [.x2, .x3]),
-                Target(size: 29, idiom: self.idiom, scales: [.x1, .x2, .x3]),
-                Target(size: 40, idiom: self.idiom, scales: [.x2, .x3]),
-                Target(size: 57, idiom: self.idiom, scales: [.x1, .x2]),
-                Target(size: 60, idiom: self.idiom, scales: [.x2, .x3])
+                Target(size: 20, idiom: "iphone", scales: [.x2, .x3]),
+                Target(size: 29, idiom: "iphone", scales: [.x1, .x2, .x3]),
+                Target(size: 40, idiom: "iphone", scales: [.x2, .x3]),
+                Target(size: 57, idiom: "iphone", scales: [.x1, .x2]),
+                Target(size: 60, idiom: "iphone", scales: [.x2, .x3]),
+                Target(size: 1024, idiom: "ios-marketing", scales: [.x1])
             ]
         case .iPad:
             return [
-                Target(size: 20, idiom: self.idiom, scales: [.x1, .x2]),
-                Target(size: 29, idiom: self.idiom, scales: [.x1, .x2]),
-                Target(size: 40, idiom: self.idiom, scales: [.x1, .x2]),
-                Target(size: 50, idiom: self.idiom, scales: [.x1, .x2]),
-                Target(size: 72, idiom: self.idiom, scales: [.x1, .x2]),
-                Target(size: 76, idiom: self.idiom, scales: [.x1, .x2]),
-                Target(size: 83.5, idiom: self.idiom, scales: [.x2]),
+                Target(size: 20, idiom: "ipad", scales: [.x1, .x2]),
+                Target(size: 29, idiom: "ipad", scales: [.x1, .x2]),
+                Target(size: 40, idiom: "ipad", scales: [.x1, .x2]),
+                Target(size: 50, idiom: "ipad", scales: [.x1, .x2]),
+                Target(size: 72, idiom: "ipad", scales: [.x1, .x2]),
+                Target(size: 76, idiom: "ipad", scales: [.x1, .x2]),
+                Target(size: 83.5, idiom: "ipad", scales: [.x2]),
             ]
-        case .iOSMarketing:
-            return [
-                Target(size: 1024, idiom: self.idiom, scales: [.x1])
-            ]
+        case .iPhoneAndiPad:
+            return SupportedPlatform.iPhone(assetsFolderRelativePath: "").targets + SupportedPlatform.iPad(assetsFolderRelativePath: "").targets
         case .macOS:
             return [
-                Target(size: 16, idiom: self.idiom, scales: [.x1, .x2]),
-                Target(size: 32, idiom: self.idiom, scales: [.x1, .x2]),
-                Target(size: 128, idiom: self.idiom, scales: [.x1, .x2]),
-                Target(size: 256, idiom: self.idiom, scales: [.x1, .x2]),
-                Target(size: 512, idiom: self.idiom, scales: [.x1, .x2]),
+                Target(size: 16, idiom: "mac", scales: [.x1, .x2]),
+                Target(size: 32, idiom: "mac", scales: [.x1, .x2]),
+                Target(size: 128, idiom: "mac", scales: [.x1, .x2]),
+                Target(size: 256, idiom: "mac", scales: [.x1, .x2]),
+                Target(size: 512, idiom: "mac", scales: [.x1, .x2]),
             ]
         }
     }
     
-    var idiom: String {
+    var assetsFolderRelativePath: String {
         switch self {
-        case .iPhone:
-            return "iphone"
-        case .iPad:
-            return "ipad"
-        case .iOSMarketing:
-            return "ios-marketing"
-        case .macOS:
-            return "mac"
+        case .iPhone(let assetsFolderRelativePath),
+            .iPad(let assetsFolderRelativePath),
+            .iPhoneAndiPad(let assetsFolderRelativePath),
+            .macOS(let assetsFolderRelativePath):
+            return assetsFolderRelativePath
         }
     }
 }

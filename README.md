@@ -77,13 +77,18 @@ struct MyIcon: PreviewProvider {
 ```
 
 ## Generating all app icons
-In a unit test, simply call `try! Swifticon.generateIconAssets(fromPreviews: MyIcon._allPreviews)`, where you replace MyIcon with the preview name you have chosen.
-
+In a unit test, simply call `try! Swifticon.generateIconAssets(...)`
 **Example:**
 ```swift
 class generateIcons: XCTestCase {
     func testGenerate() {
-        try! Swifticon.generateIconAssets(fromPreviews: MyIcon._allPreviews)
+        try! Swifticon.generateIconAssets(
+        	fromPreviews: MyIcon._allPreviews,
+        	forPlatforms: [
+                .iPhoneAndiPad(assetsFolderRelativePath: "iOSProjectFolder/Assets"),
+                .watchOS(assetsFolderRelativePath: "watch WatchKit App/Assets")
+          ]
+        )
     }
 }
 ```
@@ -91,17 +96,15 @@ class generateIcons: XCTestCase {
 ### Advanced parameters
 `Swifticon.generateIconAssets` supports additional parameters for tweaking output location and more.
 
-**platforms:**  
+**forPlatforms:**  
 An array of platforms you want icons generated for. Defaults to all platforms.  
 Supported platforms are:
 * iOS
-* iOS Marketing
 * iPadOS
 * MacOS
+* WatchOS
 
-**assetsDirectoryName:**  
-Name of the .xcassets folder the .appiconset folder should be created. Exclude suffix in the name. Defaults to Assets.  
-Should only be set if you have multiple asset folders, or not using the default name created by xcode.
+Each platform needs their relative path included. Example: `myProject/iOSProjectFolder/Assets`.
 
 **iconDirectoryName:**  
 Name of the .appiconset folder, without suffix. Defaults to AppIcon.  

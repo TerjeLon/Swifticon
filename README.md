@@ -118,3 +118,6 @@ Might cause unexpected results when false.
 **path:**  
 Needed for getting path to project folder, <font color="red">no value should be set!</font>.  
 If you do change this value, make sure its the absolute path to the project your generating icons for.
+
+## Limitations
+tvOS is not supported, and might not be unless there is a high demand for it, or someone submits a pull request that adds support. The reasoning is that the icons differ a lot from icons on the other platforms, and they are more intricate.

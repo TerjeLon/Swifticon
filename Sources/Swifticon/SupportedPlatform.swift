@@ -12,6 +12,7 @@ public enum SupportedPlatform {
     case iPhone(assetsFolderRelativePath: String)
     case iPad(assetsFolderRelativePath: String)
     case macOS(assetsFolderRelativePath: String)
+    case watchOS(assetsFolderRelativePath: String)
     
     var targets: [Target] {
         switch self {
@@ -32,7 +33,7 @@ public enum SupportedPlatform {
                 Target(size: 50, idiom: "ipad", scales: [.x1, .x2]),
                 Target(size: 72, idiom: "ipad", scales: [.x1, .x2]),
                 Target(size: 76, idiom: "ipad", scales: [.x1, .x2]),
-                Target(size: 83.5, idiom: "ipad", scales: [.x2]),
+                Target(size: 83.5, idiom: "ipad", scales: [.x2])
             ]
         case .iPhoneAndiPad:
             return SupportedPlatform.iPhone(assetsFolderRelativePath: "").targets + SupportedPlatform.iPad(assetsFolderRelativePath: "").targets
@@ -42,7 +43,24 @@ public enum SupportedPlatform {
                 Target(size: 32, idiom: "mac", scales: [.x1, .x2]),
                 Target(size: 128, idiom: "mac", scales: [.x1, .x2]),
                 Target(size: 256, idiom: "mac", scales: [.x1, .x2]),
-                Target(size: 512, idiom: "mac", scales: [.x1, .x2]),
+                Target(size: 512, idiom: "mac", scales: [.x1, .x2])
+            ]
+        case .watchOS:
+            return [
+                Target(size: 24, idiom: "watch", scales: [.x2], role: "notificationCenter", subtype: "38mm"),
+                Target(size: 27.5, idiom: "watch", scales: [.x2], role: "notificationCenter", subtype: "42mm"),
+                Target(size: 29, idiom: "watch", scales: [.x2, .x3], role: "companionSettings"),
+                Target(size: 33, idiom: "watch", scales: [.x2], role: "notificationCenter", subtype: "45mm"),
+                Target(size: 40, idiom: "watch", scales: [.x2], role: "appLauncher", subtype: "38mm"),
+                Target(size: 44, idiom: "watch", scales: [.x2], role: "appLauncher", subtype: "40mm"),
+                Target(size: 46, idiom: "watch", scales: [.x2], role: "appLauncher", subtype: "41mm"),
+                Target(size: 50, idiom: "watch", scales: [.x2], role: "appLauncher", subtype: "44mm"),
+                Target(size: 51, idiom: "watch", scales: [.x2], role: "appLauncher", subtype: "45mm"),
+                Target(size: 86, idiom: "watch", scales: [.x2], role: "quickLook", subtype: "38mm"),
+                Target(size: 98, idiom: "watch", scales: [.x2], role: "quickLook", subtype: "42mm"),
+                Target(size: 108, idiom: "watch", scales: [.x2], role: "quickLook", subtype: "44mm"),
+                Target(size: 117, idiom: "watch", scales: [.x2], role: "quickLook", subtype: "45mm"),
+                Target(size: 1024, idiom: "watch-marketing", scales: [.x1])
             ]
         }
     }
@@ -52,7 +70,8 @@ public enum SupportedPlatform {
         case .iPhone(let assetsFolderRelativePath),
             .iPad(let assetsFolderRelativePath),
             .iPhoneAndiPad(let assetsFolderRelativePath),
-            .macOS(let assetsFolderRelativePath):
+            .macOS(let assetsFolderRelativePath),
+            .watchOS(let assetsFolderRelativePath):
             return assetsFolderRelativePath
         }
     }

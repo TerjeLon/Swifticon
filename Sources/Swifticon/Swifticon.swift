@@ -70,7 +70,7 @@ public class Swifticon {
                 }
             }
             
-            let contentData = try ContentFactory.generateContentJson(fromPlatforms: platforms)
+            let contentData = try ContentFactory.generateContentJson(fromPlatform: platform)
             try FileStorageManager.saveContentFile(content: contentData, atPath: iconDirectoryPath)
         }
     }

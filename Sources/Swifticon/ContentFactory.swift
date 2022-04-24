@@ -22,28 +22,29 @@ struct IconInfo: Codable {
     let idiom: String
     let scale: String
     let size: String
+    let role: String?
+    let subtype: String?
 }
 
 class ContentFactory {
-    static func generateContentJson(fromPlatforms platforms: [SupportedPlatform]) throws -> Data {
+    static func generateContentJson(fromPlatform platform: SupportedPlatform) throws -> Data {
         let info = ContentInfo(author: "Swifticon", version: 1)
         var iconInfo: [IconInfo] = []
         
-        platforms.forEach { platform in
-            platform.targets.forEach { target in
-                target.outputSizes.forEach { outputTarget in
-                    let o = IconInfo(
-                        filename: "\(outputTarget.name).png",
-                        idiom: target.idiom,
-                        scale: outputTarget.scale.name,
-                        size: target.sizeString
-                    )
-                    
-                    iconInfo.append(o)
-                }
+        platform.targets.forEach { target in
+            target.outputSizes.forEach { outputTarget in
+                let o = IconInfo(
+                    filename: "\(outputTarget.name).png",
+                    idiom: target.idiom,
+                    scale: outputTarget.scale.name,
+                    size: target.sizeString,
+                    role: target.role,
+                    subtype: target.subtype
+                )
+                
+                iconInfo.append(o)
             }
         }
-        
         
         let content = Content(images: iconInfo, info: info)
         let coder = JSONEncoder()

@@ -8,12 +8,11 @@
 import UIKit
 
 struct Target {
-    let id = UUID()
     let size: CGFloat
     let idiom: String
     let scales: [Scale]
-    
-    var folder: String?
+    let role: String?
+    let subtype: String?
     
     var sizeString: String {
         let s = size.toString()
@@ -22,5 +21,19 @@ struct Target {
     
     var outputSizes: [OutputSize] {
         return scales.map { OutputSize(originalSize: size, scale: $0) }
+    }
+    
+    init(
+        size: CGFloat,
+        idiom: String,
+        scales: [Scale],
+        role: String? = nil,
+        subtype: String? = nil
+    ) {
+        self.size = size
+        self.idiom = idiom
+        self.scales = scales
+        self.role = role
+        self.subtype = subtype
     }
 }

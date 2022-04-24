@@ -29,14 +29,16 @@ class FileStorageManager {
         path.appendPathExtension("appiconset")
         
         if !FileManager.default.fileExists(atPath: path.path) {
-            try FileManager.default.createDirectory(atPath: path.path, withIntermediateDirectories: true, attributes: nil)
+            try FileManager.default.removeItem(atPath: path.path)
         }
+        
+        try FileManager.default.createDirectory(atPath: path.path, withIntermediateDirectories: true, attributes: nil)
         
         return path
     }
     
     static func getAssetsDirectory(named assetsDirectoryName: String, atPath path: String) -> URL? {
-        let assetsDirectoryWithSuffix = "\(assetsDirectoryName).xcassets"
+        let assetsDirectoryWithSuffix = "\(assetsDirectoryName.replacingOccurrences(of: " ", with: "%20")).xcassets"
         var url = URL(string: path)!
         var assetsDirectoryPath: URL?
         
